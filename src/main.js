@@ -2,7 +2,11 @@
 // Updated (Phaser 3): 4-12-20
 // Asset Management
 // A Phaser 3 example to help you spark joy by cleaning up round objects
-// Demonstrates asset groups, asset performance impact, click to remove
+// Demonstrates multi-asset loading, object groups, interactive (clickable) objects, tweens
+
+// To show how object counts affect FPS, increase the for loop counter in create()
+// and analyze your rendering performance in the Chrome Dev console
+// See: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference#rendering
 
 // debug ENFORCEMENT 👊
 'use strict';
@@ -26,7 +30,6 @@ class Play extends Phaser.Scene {
             { key: 'joy' },
             { key: 'kiwi' },
             { key: 'laserdisc' },
-            { key: 'mean' },
             { key: 'soccer' },
             { key: 'tennis' },
             { key: 'volleyball' },
@@ -43,13 +46,11 @@ class Play extends Phaser.Scene {
         // make the scene pink obv
         this.cameras.main.setBackgroundColor("#FACADE");
 
-        // add audio
-
         // create circles group to hold our...circles
         this.circles = this.add.group();
         // lay down random circles (change loop number to destroy FPS)
-        let circleSet = ['8ball', 'basketball', 'cd', 'kiwi', 'laserdisc', 'mean', 'soccer', 'tennis', 'volleyball'];
-        for (let i = 0; i < 4; i++) {
+        let circleSet = ['8ball', 'basketball', 'cd', 'kiwi', 'laserdisc', 'soccer', 'tennis', 'volleyball'];
+        for (let i = 0; i < 100; i++) {
             // get some random numbers for circle properties
             let randX = Math.random() * game.config.width;
             let randY = Math.random() * game.config.height;
@@ -78,9 +79,8 @@ class Play extends Phaser.Scene {
         // https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Text.html#setShadow__anchor
         this.instructions = this.add.text(game.config.width/2, game.config.height/2, "CLICK circles to CLEAN UP", style).setOrigin(0.5).setShadow(2, 2, "#333");
 
-        // a very special guest
-        this.joy = this.add.sprite(game.config.width/2, game.config.height, 'joy');
-
+        // add a very special guest
+        this.joy = this.add.sprite(game.config.width/2, game.config.height, 'joy').setOrigin(0.5, 0);
     }
 
     update() {
@@ -112,11 +112,23 @@ class Play extends Phaser.Scene {
             fontSize: '80px',
             color: '#FFFFFF',
         }
-        let sparkJoy = this.add.text(game.config.width/2, game.config.height/2, "JOY SPARKED", style).setShadow(2, 2, "#333");
+        let sparkJoy = this.add.text(0 - game.config.width/2, game.config.height/2, "JOY SPARKED", style).setOrigin(0.5).setShadow(2, 2, "#333");
         // tween in new text
-
+        this.tweens.add({
+            targets: sparkJoy,
+            x: game.config.width/2,
+            ease: 'Bounce',
+            duration: 1500,
+            repeat: 0,
+            yoyo: false
+        });
         // tween in special guest
-
+        this.tweens.add({
+            targets: this.joy,
+            y: game.config.height/2,
+            ease: 'Bounce.easeOut',
+            duration: 1000
+        });
         // play audio cue
         this.sound.play('mail');
     }
