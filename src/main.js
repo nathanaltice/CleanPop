@@ -130,7 +130,7 @@ class Play extends Phaser.Scene {
             duration: 1000
         });
         // play audio cue
-        this.sound.play('mail');
+        this.sound.play('mail', { volume: 0.75 });
     }
 
     // play a randomized pop sound
