@@ -14,7 +14,7 @@
 // Play Scene
 class Play extends Phaser.Scene {
     constructor() {
-        super("playScene");
+        super('playScene');
     }
 
     preload() {
@@ -44,18 +44,18 @@ class Play extends Phaser.Scene {
 
     create() {
         // make the scene pink obv
-        this.cameras.main.setBackgroundColor("#FACADE");
+        this.cameras.main.setBackgroundColor('#FACADE');
 
-        // create circles group to hold our...circles
+        // create a circles group to hold our...circles
         this.circles = this.add.group();
-        // lay down random circles (change loop number to destroy FPS)
+        // lay down random circles (change the loop index to a high value to destroy your FPS)
         let circleSet = ['8ball', 'basketball', 'cd', 'kiwi', 'laserdisc', 'soccer', 'tennis', 'volleyball'];
         for (let i = 0; i < 100; i++) {
             // get some random numbers for circle properties
             let randX = Math.random() * game.config.width;
             let randY = Math.random() * game.config.height;
             let randRotation = Math.random() * 360;
-            // pick a random circle image and create it inside "circles" group
+            // pick a random circle image and create it inside 'circles' group
             let rndSelection = Math.floor(Math.random() * circleSet.length);
             // create( [x] [, y] [, key] [, frame] [, visible] [, active])
             let circle = this.circles.create(randX, randY, circleSet[rndSelection]);
@@ -77,14 +77,14 @@ class Play extends Phaser.Scene {
             color: '#FFFFFF',
         }
         // https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Text.html#setShadow__anchor
-        this.instructions = this.add.text(game.config.width/2, game.config.height/2, "CLICK circles to CLEAN UP", style).setOrigin(0.5).setShadow(2, 2, "#333");
+        this.instructions = this.add.text(game.config.width/2, game.config.height/2, 'CLICK circles to CLEAN UP', style).setOrigin(0.5).setShadow(2, 2, '#333');
 
         // add a very special guest
         this.joy = this.add.sprite(game.config.width/2, game.config.height, 'joy').setOrigin(0.5, 0);
     }
 
     update() {
-        // rotate all the children in the "circles" group
+        // rotate all the children in the 'circles' group
         this.circles.rotate(0.05)
         // rotateAround(point, angle)
         //this.circles.rotateAround({x: game.config.width/2, y: game.config.height/2}, -0.005);
@@ -92,13 +92,13 @@ class Play extends Phaser.Scene {
 
     // remove clicked item
     removeItem(pointer, localX, localY, event) {
-        let scenecxt = this.scene;  // get scene context before we kill the object
-        scenecxt.playPop();         // play pop sound
+        let sceneContext = this.scene;  // get scene context before we kill the object
+        sceneContext.playPop();         // play pop sound
         this.destroy();             // destroy the child obj
 
         // check for special guest if all circles are gone
-        if(!scenecxt.circles.getLength()) {
-            scenecxt.sparkJoy();
+        if(!sceneContext.circles.getLength()) {
+            sceneContext.sparkJoy();
         }  
     }
 
@@ -112,7 +112,7 @@ class Play extends Phaser.Scene {
             fontSize: '80px',
             color: '#FFFFFF',
         }
-        let sparkJoy = this.add.text(0 - game.config.width/2, game.config.height/2, "JOY SPARKED", style).setOrigin(0.5).setShadow(2, 2, "#333");
+        let sparkJoy = this.add.text(0 - game.config.width/2, game.config.height/2, 'JOY SPARKED', style).setOrigin(0.5).setShadow(2, 2, '#333');
         // tween in new text
         this.tweens.add({
             targets: sparkJoy,
