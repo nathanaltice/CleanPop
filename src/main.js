@@ -55,16 +55,19 @@ class Play extends Phaser.Scene {
             let randX = Math.random() * game.config.width;
             let randY = Math.random() * game.config.height;
             let randRotation = Math.random() * 360;
+            
             // pick a random circle image and create it inside 'circles' group
             let rndSelection = Math.floor(Math.random() * circleSet.length);
             // create( [x] [, y] [, key] [, frame] [, visible] [, active])
             let circle = this.circles.create(randX, randY, circleSet[rndSelection]);
             circle.rotation += randRotation;
+            
             // make circle interactive so we can click (and remove) it
             // https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.GameObject.html#setInteractive
             circle.setInteractive({
                 useHandCursor: true,
             });
+            
             // call a function when the mouse clicks on the interactive object
             // https://photonstorm.github.io/phaser3-docs/Phaser.Input.Events.html#event:GAMEOBJECT_POINTER_DOWN__anchor
             circle.on('pointerdown', this.removeItem);
@@ -86,6 +89,7 @@ class Play extends Phaser.Scene {
     update() {
         // rotate all the children in the 'circles' group
         this.circles.rotate(0.05)
+        
         // rotateAround(point, angle)
         //this.circles.rotateAround({x: game.config.width/2, y: game.config.height/2}, -0.005);
     }
@@ -94,7 +98,7 @@ class Play extends Phaser.Scene {
     removeItem(pointer, localX, localY, event) {
         let sceneContext = this.scene;  // get scene context before we kill the object
         sceneContext.playPop();         // play pop sound
-        this.destroy();             // destroy the child obj
+        this.destroy();                 // destroy the child obj
 
         // check for special guest if all circles are gone
         if(!sceneContext.circles.getLength()) {
@@ -106,6 +110,7 @@ class Play extends Phaser.Scene {
     sparkJoy() {
         // get rid of the previous text
         this.instructions.destroy();
+        
         // setup new text
         let style = {
             fontFamily: 'Futura',
@@ -113,6 +118,7 @@ class Play extends Phaser.Scene {
             color: '#FFFFFF',
         }
         let sparkJoy = this.add.text(0 - game.config.width/2, game.config.height/2, 'JOY SPARKED', style).setOrigin(0.5).setShadow(2, 2, '#333');
+        
         // tween in new text
         this.tweens.add({
             targets: sparkJoy,
@@ -122,6 +128,7 @@ class Play extends Phaser.Scene {
             repeat: 0,
             yoyo: false
         });
+        
         // tween in special guest
         this.tweens.add({
             targets: this.joy,
@@ -129,6 +136,7 @@ class Play extends Phaser.Scene {
             ease: 'Bounce.easeOut',
             duration: 1000
         });
+        
         // play audio cue
         this.sound.play('mail', { volume: 0.75 });
     }
@@ -157,6 +165,6 @@ let config = {
     width: 800,
     height: 600,
     scene: [ Play ],
-};
+}
 
 let game = new Phaser.Game(config);
