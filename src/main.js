@@ -1,5 +1,5 @@
 // Nathan Altice made this :p
-// Updated: 1/13/24
+// Updated: 12/30/25
 // Asset Management
 // A Phaser 3 example to help you spark joy by cleaning up round objects
 // Demonstrates multi-asset loading, object groups, interactive (clickable) objects, tweens
@@ -50,7 +50,7 @@ class Play extends Phaser.Scene {
         this.circles = this.add.group()
         // lay down random circles (change the loop index to a high value to destroy your FPS)
         let circleSet = ['8ball', 'basketball', 'cd', 'kiwi', 'laserdisc', 'soccer', 'tennis', 'volleyball']
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 100; i++) {
             // get some random numbers for circle properties
             let randX = Math.random() * game.config.width
             let randY = Math.random() * game.config.height
@@ -90,7 +90,7 @@ class Play extends Phaser.Scene {
         // rotate all the children in the 'circles' group
         this.circles.rotate(0.05)
         
-        // rotateAround(point, angle)
+        // we can also rotate around a point: rotateAround(point, angle)
         //this.circles.rotateAround({x: game.config.width/2, y: game.config.height/2}, -0.005)
     }
 
