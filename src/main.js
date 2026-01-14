@@ -1,12 +1,12 @@
 // Nathan Altice made this :p
-// Updated: 12/30/25
+// Updated: 1/14/26
 // Asset Management
 // A Phaser 3 example to help you spark joy by cleaning up round objects
 // Demonstrates multi-asset loading, object groups, interactive (clickable) objects, tweens
 
 // To show how object counts affect FPS, increase the for loop counter in create()
 // and analyze your rendering performance in the Chrome Dev console
-// See: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference#rendering
+// See: https://developer.chrome.com/docs/devtools/rendering
 
 // debug ENFORCEMENT 👊
 'use strict'
@@ -22,7 +22,7 @@ class Play extends Phaser.Scene {
         this.load.path = './assets/img/'
         // load multiple images
         // we can omit the extension property b/c they are all .png)
-        // see: https://phaser.io/examples/v3/view/loader/image/load-image
+        // see: https://phaser.io/examples/v3.85.0/loader/image/view/load-image
         this.load.image([
             { key: '8ball' },
             { key: 'basketball' },
@@ -63,13 +63,13 @@ class Play extends Phaser.Scene {
             circle.rotation += randRotation
             
             // make circle interactive so we can click (and remove) it
-            // https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.GameObject.html#setInteractive
+            // https://docs.phaser.io/api-documentation/class/gameobjects-gameobject#setinteractive
             circle.setInteractive({
                 useHandCursor: true,
             })
             
             // call a function when the mouse clicks on the interactive object
-            // https://photonstorm.github.io/phaser3-docs/Phaser.Input.Events.html#event:GAMEOBJECT_POINTER_DOWN__anchor
+            // https://docs.phaser.io/api-documentation/event/input-events#gameobject_pointer_down
             circle.on('pointerdown', this.removeItem)
         }
 
@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
             fontSize: '28px',
             color: '#FFFFFF',
         }
-        // https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Text.html#setShadow__anchor
+        // https://docs.phaser.io/api-documentation/class/gameobjects-text#setshadow
         this.instructions = this.add.text(game.config.width/2, game.config.height/2, 'CLICK circles to CLEAN UP', style).setOrigin(0.5).setShadow(2, 2, '#333')
 
         // add a very special guest
@@ -98,7 +98,7 @@ class Play extends Phaser.Scene {
     removeItem(pointer, localX, localY, event) {
         let sceneContext = this.scene  // get scene context before we kill the object
         sceneContext.playPop()         // play pop sound
-        this.destroy()                 // destroy the child obj
+        this.destroy()                 // destroy the child obj (note that *this* has a different context)
 
         // check for special guest if all circles are gone
         if(!sceneContext.circles.getLength()) {
